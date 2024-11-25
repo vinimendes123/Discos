@@ -1,0 +1,23 @@
+{
+    "development": {
+      "username": "postgres",
+      "password": "vinimendes",
+      "database": "discoteca",
+      "host": "localhost",
+      "dialect": "postgres"
+    },
+    "test": {
+      "username": "postgres",
+      "password": "vinimendes",
+      "database": "discoteca",
+      "host": "localhost",
+      "dialect": "postgres"
+    },
+    "production": {
+      "username": "postgres",
+      "passrword": "vinimendes",
+      "database": "discoteca",
+      "host": "localhost",
+      "dialect": "postgres"
+  }
+  }

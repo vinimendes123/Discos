@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Disco</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/css/multi-select-tag.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Disco: <%= disco.titulo %></h1>
+
+        <form action="/editar-disco/<%= disco.id %>" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="titulo">Título do Disco:</label>
+                <input type="text" id="titulo" name="titulo" value="<%= disco.titulo %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="ano">Ano:</label>
+                <input type="date" id="ano" name="ano" value="<%= disco.ano %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="faixa">Faixa:</label>
+                <input type="text" id="faixa" name="faixa" value="<%= disco.faixa %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="imagem">Imagem:</label>
+                <input type="file" id="imagem" name="imagem">
+            </div>
+
+            <div class="form-group">
+                <label for="genero">Gênero Musical do Disco:</label>
+                <select id="genero" name="genero[]" multiple required>
+                    <option value="generico" <%= disco.genero.includes("generico") ? 'selected' : '' %>>Genérico</option>
+                    <option value="blues" <%= disco.genero.includes("blues") ? 'selected' : '' %>>Blues</option>
+                    <option value="country" <%= disco.genero.includes("country") ? 'selected' : '' %>>Country</option>
+                    <option value="disco" <%= disco.genero.includes("disco") ? 'selected' : '' %>>Disco</option>
+                    <option value="eletronica" <%= disco.genero.includes("eletronica") ? 'selected' : '' %>>Eletrônica</option>
+                    <option value="funk" <%= disco.genero.includes("funk") ? 'selected' : '' %>>Funk</option>
+                    <option value="hiphop" <%= disco.genero.includes("hiphop") ? 'selected' : '' %>>Hip Hop</option>
+                    <option value="indie" <%= disco.genero.includes("indie") ? 'selected' : '' %>>Indie</option>
+                    <option value="jazz" <%= disco.genero.includes("jazz") ? 'selected' : '' %>>Jazz</option>
+                    <option value="kpop" <%= disco.genero.includes("kpop") ? 'selected' : '' %>>K-pop</option>
+                    <option value="metal" <%= disco.genero.includes("metal") ? 'selected' : '' %>>Metal</option>
+                    <option value="musicaclassica" <%= disco.genero.includes("musicaclassica") ? 'selected' : '' %>>Música Clássica</option>
+                    <option value="pop" <%= disco.genero.includes("pop") ? 'selected' : '' %>>Pop</option>
+                    <option value="punk" <%= disco.genero.includes("punk") ? 'selected' : '' %>>Punk</option>
+                    <option value="reb" <%= disco.genero.includes("reb") ? 'selected' : '' %>>R&B</option>
+                    <option value="reggae" <%= disco.genero.includes("reggae") ? 'selected' : '' %>>Reggae</option>
+                    <option value="rock" <%= disco.genero.includes("rock") ? 'selected' : '' %>>Rock</option>
+                    <option value="samba" <%= disco.genero.includes("samba") ? 'selected' : '' %>>Samba</option>
+                    <option value="sertanejo" <%= disco.genero.includes("sertanejo") ? 'selected' : '' %>>Sertanejo</option>
+                    <option value="soul" <%= disco.genero.includes("soul") ? 'selected' : '' %>>Soul</option>
+                    <option value="trap" <%= disco.genero.includes("trap") ? 'selected' : '' %>>Trap</option>
+                </select>
+            </div>
+
+            <button type="submit">Salvar Alterações</button>
+        </form>
+
+        <a href="/catalogo" class="button-link">
+            <button type="button">Voltar</button>
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
+    <script>
+        new MultiSelectTag('genero');
+    </script>
+</body>
+</html>

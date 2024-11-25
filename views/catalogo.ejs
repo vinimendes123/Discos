@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script>
+        function atualizarFiltros() {
+            const categoria = document.getElementById('categoria').value;
+            const tituloField = document.getElementById('titulo-field');
+            const nomeField = document.getElementById('nome-field');
+
+            if (categoria === 'disco') {
+                tituloField.style.display = 'block';
+                nomeField.style.display = 'none';
+            } else if (categoria === 'artista') {
+                tituloField.style.display = 'none';
+                nomeField.style.display = 'block';
+            } else {
+                tituloField.style.display = 'none';
+                nomeField.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body onload="atualizarFiltros()">
+    <div class="container">
+        <h1>Catálogo</h1>
+
+        <form action="/catalogo" method="GET">
+            <div class="form-group">
+                <label for="categoria">Buscar por Artista ou Disco?</label>
+                <select id="categoria" name="categoria" required onchange="atualizarFiltros()">
+                    <option value="">Nenhum</option>
+                    <option value="artista" <%= categoria === 'artista' ? 'selected' : '' %>>Artista</option>
+                    <option value="disco" <%= categoria === 'disco' ? 'selected' : '' %>>Disco</option>
+                </select>
+            </div>
+
+            <div id="titulo-field" class="form-group" style="display: none;">
+                <label for="titulo">Título do Disco:</label>
+                <input type="text" id="titulo" name="titulo" value="<%= titulo || '' %>">
+            </div>
+
+            <div id="nome-field" class="form-group" style="display: none;">
+                <label for="nome">Nome do Artista:</label>
+                <input type="text" id="nome" name="nome" value="<%= nome || '' %>">
+            </div>
+
+            <div class="form-group">
+                <label for="genero">Buscar por Gênero Musical:</label>
+                <select id="genero" name="genero">
+                    <option value="">Nenhum</option>
+                    <option value="generico" <%= genero === 'generico' ? 'selected' : '' %>>Genérico</option>
+                    <option value="blues" <%= genero === 'blues' ? 'selected' : '' %>>Blues</option>
+                    <option value="country" <%= genero === 'country' ? 'selected' : '' %>>Contry</option>
+                    <option value="disco" <%= genero === 'disco' ? 'selected' : '' %>>Disco</option>
+                    <option value="eletronica" <%= genero === 'eletronica' ? 'selected' : '' %>>Eletrônica</option>
+                    <option value="funk" <%= genero === 'funk' ? 'selected' : '' %>>Funk</option>
+                    <option value="hiphop" <%= genero === 'hiphop' ? 'selected' : '' %>>Hip Hop</option>
+                    <option value="indie" <%= genero === 'indie' ? 'selected' : '' %>>Indie</option>
+                    <option value="jazz" <%= genero === 'jazz' ? 'selected' : '' %>>Jazz</option>
+                    <option value="kpop" <%= genero === 'kpop' ? 'selected' : '' %>>K-pop</option>
+                    <option value="metal" <%= genero === 'metal' ? 'selected' : '' %>>Metal</option>
+                    <option value="musicaclassica" <%= genero === 'musicaclassica' ? 'selected' : '' %>>Musica Clássica</option>
+                    <option value="pop" <%= genero === 'pop' ? 'selected' : '' %>>Pop</option>
+                    <option value="punk" <%= genero === 'punk' ? 'selected' : '' %>>Punk</option>
+                    <option value="reb" <%= genero === 'reb' ? 'selected' : '' %>>R&B</option>
+                    <option value="reggae" <%= genero === 'reggae' ? 'selected' : '' %>>Reggae</option>
+                    <option value="rock" <%= genero === 'rock' ? 'selected' : '' %>>Rock</option>
+                    <option value="samba" <%= genero === 'samba' ? 'selected' : '' %>>Samba</option>
+                    <option value="sertanejo" <%= genero === 'sertanejo' ? 'selected' : '' %>>Sertanejo</option>
+                    <option value="soul" <%= genero === 'soul' ? 'selected' : '' %>>Soul</option>
+                    <option value="trap" <%= genero === 'trap' ? 'selected' : '' %>>Trap</option>
+                </select>
+            </div>
+
+            <button type="submit">Buscar</button>
+        </form>
+
+        <h2>Resultados</h2>
+        <% if (resultados && resultados.length > 0) { %>
+            <ul>
+                <% resultados.forEach(item => { %>
+                    <li>
+                        <% if (item.titulo) { %>
+                            <p>  Id: <%= item.id %> - Disco: <strong><%= item.titulo %></strong> - Gênero: <%= item.genero %></p>
+                            <% if (item.imagem) { %>
+                                <img src="<%= item.imagem %>" alt="<%= item.titulo %>" width="100">
+                            <% } %>
+                            <div class="buttons-container">
+                                <form action="/editar-disco/<%= item.id %>" method="GET">
+                                    <button type="submit" class="editar">Editar</button>
+                                </form>
+                                <form action="/deletar-disco/<%= item.id %>" method="POST">
+                                    <button type="submit" class="excluir">Excluir</button>
+                                </form>
+                            </div>
+                        <% } else { %>
+                            <p>Artista: <strong><%= item.nome %></strong> - Gênero: <%= item.genero %> - Disco: <%= item.discos %></p>
+                            <div class="buttons-container">
+                                <form action="/editar-artista/<%= item.id %>" method="GET">
+                                    <button type="submit" class="editar">Editar</button>
+                                </form>
+                                <form action="/deletar-artista/<%= item.id %>" method="POST">
+                                    <button type="submit" class="excluir">Excluir</button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </li>
+                <% }) %>
+            </ul>
+            
+            
+            
+        <% } else { %>
+            <p>Nenhum resultado encontrado.</p>
+        <% } %>
+
+        <a href="/" class="button-link">
+            <button type="button">Voltar</button>
+        </a>
+    </div>
+</body>
+</html>
